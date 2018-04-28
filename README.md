@@ -1,4 +1,4 @@
-# Lab 3
+# Airportmap
 ## Interactive Map Design for all airports and states in U.S.
 
 >  Geovisualization: Geovisual Analytics/lab3
