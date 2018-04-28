@@ -139,7 +139,7 @@ We are using Chroma to draw from color ramps created by [ColorBrewer](http://col
 ```
 
 ##### Add a Legend
-I used the below code to add Legend
+we used the below code to add Legend
 
 ```
 
