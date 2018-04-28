@@ -1,68 +1,4 @@
-# Lab 3
-## Interactive Map Design for all airports and states in U.S.
-
->  Geovisualization: Geovisual Analytics/lab3
-
-
-#### Introduction:
-In this project, we creat a thematic map of  airports in each state in the United States.
-
-
-
-When creating a web map, one of the key components is styling your elements
- to provide proper symbolization for data.
- This increases legibility for users and can give our map an appealing, custom design.
-  Elements that can be custom designed include thematic layers (i.e., points, lines,
-and polygons), base maps
-   (as a leaflet `tileLayer`), interactive features (the components of the map that allow
-    for user interaction),
-    and legends and supplemental information (such as credits, etc.).
-
-The spatial distribution of Airports is from
-[DATA.GOV](https://catalog.data.gov/dataset/usgs-small-scale-dataset-airports-of-the-united-states-201207-shapefile).
- Below is the final web map we will make in this project.
-
-![](img/final.jpg)
-
-**All CSS libraries:**
-
-There are four css file that we use for this project. First main1.css that you can find in css folder and 
-also three other css libraries from font-awesome(Font Awesome allows you to add icons by CSS classes),
- leaflet and googleapis( In order to ensure that every visitors computer display the same, you can link to this online font libraries).
-```
-<link rel="stylesheet" href="css/main1.css"/>
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.1/dist/leaflet.css"/>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css"/>
-<link href="https://fonts.googleapis.com/css?family=Titillium+Web" rel="stylesheet">
-```
-
-**All javascript libraries:**
-
-There are nine diferent script file thet we listed below. we need to include a Javascript
-library leaflet.ajax in the head element. This library will be used to asynchronously read GeoJson data.
- We use chroma.js to colorize the icon, and utilize $ of jQuery to manipulate html elements.
-  Chroma.js is a javascript library to manipulate colors. Therefore, we need to include both chroma.js and
-   jQuery in the head tag.
-   
-   The label function is supported by the Label Gun library, which is a mapping library agnostic labelling 
-   engine. It allows you to avoid cluttering in mapping popups and labels, providing precedence to labels 
-   of your choice.
-   
-   In order to use custom project, we need two necessary libraries proj4js and proj4leaflet after the leaflet.js
-```
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/chroma-js/1.3.4/chroma.min.js"></script>
-    <script src="https://unpkg.com/rbush@2.0.1/rbush.min.js"></script>
-    <script src="https://unpkg.com/labelgun@6.0.0/lib/labelgun.min.js"></script>
-    <script src="https://unpkg.com/leaflet@1.3.1/dist/leaflet.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/proj4js/2.4.4/proj4.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/proj4leaflet/1.0.2/proj4leaflet.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-ajax/2.1.0/leaflet.ajax.min.js"></script>
-    <script type="text/javascript" src="https://cloudybay.github.io/leaflet.latlng-graticule/leaflet.latlng-graticule.js"></script>
-```
-##### Set up our Map and Add Data
-```
-// 1. Create a map object.
+  // 1. Create a map object.
     var mymap = L.map('map', {
         center: [39.62, -100.85],
         zoom: 5,
@@ -70,56 +6,50 @@ library leaflet.ajax in the head element. This library will be used to asynchron
         minZoom: 3,
         detectRetina: true // detect whether the sceen is high resolution or not.
     });
-```
-**Base map**
-The base map is provided by CartoDBthe and we used open street base
-map for this project. [Leaflet providers](http://leaflet-extras.github.io/leaflet-providers/preview/)
 
-![](img/basemap.JPG)
+    // 2. Add a base map.
+    L.tileLayer('https://{s}.tile.openstreetmap.de/tiles/osmde/{z}/{x}/{y}.png').addTo(mymap);
 
-**Add the airport Data**
-
-For add the airport dataset to the map.
-First, we need to include another Javascript library
- [`leaflet.ajax`](https://github.com/calvinmetcalf/leaflet-ajax) in the `head` element. This
-  library will be used to asynchronously read `GeoJson` data.
-
-```html
-<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-ajax/2.1.0/leaflet.ajax.min.js"></script>
-```
+    // 3.Add airports GeoJSON Data
+    // Null variable that will hold airports data
+    var airports = null;
 
 
-#####  Point Marker Visualization
-###### Create the color scheme for markers
-we prepare custom icon using **Font Awesome** and make color scheme with **Chroma.js**.
+    // 4. build up a set of colors from colorbrewer's "set2" category
+    var colors = chroma.scale('Set2').mode('lch').colors(2);
 
-[**Font Awesome**](http://fontawesome.io/) allows us to add icons by CSS classes.
-To apply Font Awesome, you will need to include its css link in the `head`
-element of the web map.
+    // 5. dynamically append style classes to this page using a JavaScript for loop. These style classes will be used for colorizing the markers.
+    for (i = 0; i < 2; i++) {
+        $('head').append($("<style> .marker-color-" + (i + 1).toString() + " { color: " + colors[i] + "; font-size: 15px; text-shadow: 0 0 3px #ffffff;} </style>"));
+    }
 
-```html
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css"/>
-```
+    // Get GeoJSON and put on it on the map when it loads
+    airports= L.geoJson.ajax("assets/airports.geojson",{
+// assign a function to the onEachFeature parameter of the airports object.
+// Then each (point) feature will bind a popup window.
+// The content of the popup window is the value of `feature.properties.company`
+        onEachFeature: function (feature, layer) {
+            layer.bindPopup(feature.properties.CNTL_TWR);
+        },
+        pointToLayer: function (feature, latlng) {
+            var id = 0;
+            if (feature.properties.CNTL_TWR == "Y") { id = 0; }
 
-In addition, we will use another library `chroma.js` to colorize the icon, and utilize
- `$` of `jQuery` to manipulate `html` elements to add the colored icons.
- [Chroma.js](https://gka.github.io/chroma.js/) is a javascript library to manipulate colors
- . Therefore, we need to include both `chroma.js` and `jQuery` in the head tag.
+            else { id = 1;}
+            return L.marker(latlng, {icon: L.divIcon({className: 'fa fa-plane marker-color-' + (id + 1).toString() })});
+        },
+        attribution: 'GeoVisualization: Airport Data | U.S States | Base Map &copy; CartoDB | Lab3 Majid Farahani'
+    });
+    // Add the airports to the map.
 
-```html
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/chroma-js/1.3.4/chroma.min.js"></script>
-```
-
-Furthermore, we also need some predefined color ramp to symbolize geographic features.
-We are using Chroma to draw from color ramps created by [ColorBrewer](http://colorbrewer2.org/),
- an online tool designed to help people select good color schemes for maps and other graphics.
-  It provides three types of palettes: sequential, diverging and qualitative.
+    airports.addTo(mymap);
 
 
-##### color palette
-```
-// 6. Set function for color ramp
+
+
+
+
+    // 6. Set function for color ramp
     colors = chroma.scale('OrRd').colors(10); //colors = chroma.scale('OrRd').colors(5);
 
     function setColor(density) {
@@ -136,12 +66,22 @@ We are using Chroma to draw from color ramps created by [ColorBrewer](http://col
         else  { id = 0; }
         return colors[id];
     }
-```
+    // 7. Set style function that sets fill color.md property equal to cell tower density
+    function style(feature) {
+        return {
+            fillColor: setColor(feature.properties.count),
+            fillOpacity: 0.4,
+            weight: 2,
+            opacity: 1,
+            color: '#b4b4b4',
+            dashArray: '4'
+        };
+    }
+    // 8. Add state polygons
+    L.geoJson.ajax("assets/us-states.geojson", {
+        style: style
+    }).addTo(mymap);
 
-##### Add a Legend
-I used the below code to add Legend
-
-```
 
     // 9. Create Leaflet Control Object for Legend
     var legend = L.control({position: 'topright'});
@@ -178,23 +118,11 @@ I used the below code to add Legend
 
     // 11. Add a legend to map
     legend.addTo(mymap);
-```
 
+    // 12. Add a scale bar to map
+    L.control.scale({position: 'bottomleft'}).addTo(mymap);
 
-
-
-
-
-##### Add a Scale Bar
-
-
-we used the below code to add scale bar
-
-```
-L.control.scale({position: 'bottomleft'}).addTo(mymap);
-```
-#####  Reproject a web map 
-```
+    // 13. Add a latlng graticules.
     L.latlngGraticule({
         showLabel: true,
         opacity: 0.2,
@@ -205,12 +133,15 @@ L.control.scale({position: 'bottomleft'}).addTo(mymap);
         ]
     }).addTo(mymap);
 
-```
+    // 14. This is core of how Labelgun works. We must provide two functions, one
+    // that hides our labels, another that shows the labels. These are essentially
+    // callbacks that labelgun uses to actually show and hide our labels
+    // In this instance we set the labels opacity to 0 and 1 respectively.
+    var hideLabel = function(label){ label.labelObject.style.opacity = 0;};
+    var showLabel = function(label){ label.labelObject.style.opacity = 1;};
+    var labelEngine = new labelgun.default(hideLabel, showLabel);
+    var labels = [];
 
-
-##### creating lable 
-
-```
     // 15. Create a label for each state.
     var usstates = null;
     usstates = L.geoJson.ajax("assets/us-states.geojson", {
@@ -273,16 +204,3 @@ L.control.scale({position: 'bottomleft'}).addTo(mymap);
             resolutions: [8192, 4096, 2048, 1024, 512, 256, 128, 64, 32, 16, 8, 4, 2, 1] // example zoom level resolutions
         }
     );
-``` 
-
-
-
-
-
-
-
-
-
-
-
-
