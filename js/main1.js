@@ -147,7 +147,7 @@
     usstates = L.geoJson.ajax("assets/us-states.geojson", {
         style: style,
         onEachFeature: function (feature, label) {
-            label.bindTooltip(feature.properties.NAME, {className: 'feature-label', permanent:true, direction: 'center'});
+            label.bindTooltip(feature.properties.name, {className: 'feature-label', permanent:true, direction: 'center'});
             labels.push(label);
         }
     }).addTo(mymap);
