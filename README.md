@@ -1,11 +1,13 @@
-# [Airportmap](https://farahanimajid.github.io/airportmap/)
+# Airportmap
 The link for map is: [Airportmap](https://farahanimajid.github.io/airportmap/)
-## Interactive Map Design for all airports and states in U.S.
+</hr>
+
+**Interactive Map Design for all airports and states in U.S.**
 
 >  Geovisualization: Geovisual Analytics/lab3
 
 
-#### Introduction:
+**Introduction:**
 In this project, we creat a thematic map of  airports in each state in the United States.
 
 
@@ -23,7 +25,7 @@ The spatial distribution of Airports is from
 [DATA.GOV](https://catalog.data.gov/dataset/usgs-small-scale-dataset-airports-of-the-united-states-201207-shapefile).
  Below is the final web map we will make in this project.
 
-![](img/final.jpg)
+[![](img/final.jpg)](https://catalog.data.gov/dataset/usgs-small-scale-dataset-airports-of-the-united-states-201207-shapefile)
 
 **All CSS libraries:**
 
@@ -61,7 +63,7 @@ library leaflet.ajax in the head element. This library will be used to asynchron
     <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-ajax/2.1.0/leaflet.ajax.min.js"></script>
     <script type="text/javascript" src="https://cloudybay.github.io/leaflet.latlng-graticule/leaflet.latlng-graticule.js"></script>
 ```
-##### Set up our Map and Add Data
+ **Set up our Map and Add Data:**
 ```
 // 1. Create a map object.
     var mymap = L.map('map', {
@@ -90,8 +92,8 @@ First, we need to include another Javascript library
 ```
 
 
-#####  Point Marker Visualization
-###### Create the color scheme for markers
+**Point Marker Visualization**
+ Create the color scheme for markers:
 we prepare custom icon using **Font Awesome** and make color scheme with **Chroma.js**.
 
 [**Font Awesome**](http://fontawesome.io/) allows us to add icons by CSS classes.
@@ -118,7 +120,7 @@ We are using Chroma to draw from color ramps created by [ColorBrewer](http://col
   It provides three types of palettes: sequential, diverging and qualitative.
 
 
-##### color palette
+ **color palette:**
 ```
 // 6. Set function for color ramp
     colors = chroma.scale('OrRd').colors(10); //colors = chroma.scale('OrRd').colors(5);
@@ -139,7 +141,7 @@ We are using Chroma to draw from color ramps created by [ColorBrewer](http://col
     }
 ```
 
-##### Add a Legend
+ **Add a Legend:**
 we used the below code to add Legend
 
 ```
@@ -186,7 +188,7 @@ we used the below code to add Legend
 
 
 
-##### Add a Scale Bar
+ **Add a Scale Bar:**
 
 
 we used the below code to add scale bar
@@ -194,7 +196,7 @@ we used the below code to add scale bar
 ```
 L.control.scale({position: 'bottomleft'}).addTo(mymap);
 ```
-#####  Reproject a web map 
+  Reproject a web map: 
 ```
     L.latlngGraticule({
         showLabel: true,
@@ -209,7 +211,7 @@ L.control.scale({position: 'bottomleft'}).addTo(mymap);
 ```
 
 
- creating lable: 
+ **creating lable:** 
 
 ```
     // 15. Create a label for each state.
