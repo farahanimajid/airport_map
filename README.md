@@ -209,7 +209,7 @@ L.control.scale({position: 'bottomleft'}).addTo(mymap);
 ```
 
 
- ####creating lable: 
+ ####  creating lable: 
 
 ```
     // 15. Create a label for each state.
