@@ -1,4 +1,5 @@
-# Airportmap
+# [Airportmap](https://farahanimajid.github.io/airportmap/)
+The link for map is: [Airportmap](https://farahanimajid.github.io/airportmap/)
 ## Interactive Map Design for all airports and states in U.S.
 
 >  Geovisualization: Geovisual Analytics/lab3
