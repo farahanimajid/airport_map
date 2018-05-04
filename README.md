@@ -23,9 +23,11 @@ and polygons), base maps
 
 The spatial distribution of Airports is from
 [DATA.GOV](https://catalog.data.gov/dataset/usgs-small-scale-dataset-airports-of-the-united-states-201207-shapefile).
- Below is the final web map we will make in this project.
 
-[![](img/final.jpg)](https://catalog.data.gov/dataset/usgs-small-scale-dataset-airports-of-the-united-states-201207-shapefile)
+
+[**This**](https://farahanimajid.github.io/airportmap/) is the final web map we will make in this project.
+
+[![](img/final.jpg)](https://farahanimajid.github.io/airportmap/)
 
 **All CSS libraries:**
 
