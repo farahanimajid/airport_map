@@ -29,9 +29,6 @@ The spatial distribution of Airports is from
 
 
 
-![](img/final.JPG)
-
-
 [![airport](img/final.JPG)](https://farahanimajid.github.io/airportmap/)
 
 **All CSS libraries:**
